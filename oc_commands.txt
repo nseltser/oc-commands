@@ -1,0 +1,7 @@
+docker pull <imagename>:stable
+docker images
+docker run -d <image-id>
+
+# connect to image
+docker ps
+docker exec -it <container_id> /bin/bash
