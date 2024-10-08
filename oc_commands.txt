@@ -5,3 +5,52 @@ docker run -d <image-id>
 # connect to image
 docker ps
 docker exec -it <container_id> /bin/bash
+
+# copy files to pod
+oc login
+oc project
+oc get pods
+kubectl cp <local-file-path> <pod-name>:<container-destination-path>
+
+example:
+kubectl cp MyFile.txt app-0:/home/destination_directory
+
+# copy files from pod
+oc login
+oc project
+oc get pods
+kubectl cp <pod-name>:<container-origin-path> <local-file-path-dest>
+
+#in pod
+oc login
+oc project
+kubectl exec -it [pod name] bash
+
+#get pod name
+pod=$(oc get pod --namespace [namespace] | grep [podname] | awd '{print $1}'
+#get container name
+containers=$(oc get pods ${pod} --namespace [namespace] -o jsonpath='{spec.containers[*].name}')
+#get logs from stdout
+oc logs ${pod} -c ${container} --namespace [namespace] > "${TARGET_FOLDER}/${pod}/${container}_stdout.log
+#get logs from running pod
+os rsync ${pod}:/home/logs_destination/"${TARGET_FOLDER}/${pod}" --namespace [namespace] 
+os rsync ${pod_name}:/home/file_destination .;
+
+# which OS on pod 
+cat /etc/issue
+
+#extract secret to file
+oc extract secret/[secret_name] --confirm --to=. > debug.txt 2>&1
+
+#get specific value from secre
+username=$(kubectl get secret [secret_name] -n $(helmNamespace) -o jsonpath='{.data.secre_name_in_data}' | base64 --decode)
+
+#get machine set
+oc get machineset -A
+oc get machineset [name] -o yaml
+
+
+
+
+
+
